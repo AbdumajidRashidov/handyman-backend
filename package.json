@@ -1,27 +1,21 @@
 {
-  "name": "handyman-backend",
+  "name": "taskrabbit-clone-backend",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Backend for TaskRabbit-like app",
+  "main": "src/app.js",
   "scripts": {
-    "test": "npm run test"
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/AbdumajidRashidov/handyman-backend.git"
+  "dependencies": {
+    "express": "^4.17.1",
+    "pg": "^8.7.1",
+    "dotenv": "^10.0.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "cors": "^2.8.5"
   },
-  "keywords": [
-    "handyman",
-    "job",
-    "online-job",
-    "ish-bor",
-    "usta",
-    "ustabor"
-  ],
-  "author": "Abdumajid Rashidov",
-  "license": "Apache-2.0",
-  "bugs": {
-    "url": "https://github.com/AbdumajidRashidov/handyman-backend/issues"
-  },
-  "homepage": "https://github.com/AbdumajidRashidov/handyman-backend#readme",
-  "description": ""
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  }
 }
