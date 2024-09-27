@@ -1,0 +1,27 @@
+{
+  "name": "handyman-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdumajidRashidov/handyman-backend.git"
+  },
+  "keywords": [
+    "handyman",
+    "job",
+    "online-job",
+    "ish-bor",
+    "usta",
+    "ustabor"
+  ],
+  "author": "Abdumajid Rashidov",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/AbdumajidRashidov/handyman-backend/issues"
+  },
+  "homepage": "https://github.com/AbdumajidRashidov/handyman-backend#readme",
+  "description": ""
+}
