@@ -36,6 +36,45 @@ class Tasker {
     const result = await db.query(query);
     return result.rows;
   }
+
+  static async search(
+    criteria,
+    page = 1,
+    limit = 10,
+    sortBy = "created_at",
+    sortOrder = "DESC"
+  ) {
+    let query = "SELECT * FROM taskers WHERE 1=1";
+    const values = [];
+    let valueIndex = 1;
+
+    if (criteria.skills && criteria.skills.length > 0) {
+      query += ` AND skills && $${valueIndex++}`;
+      values.push(criteria.skills);
+    }
+
+    if (criteria.minHourlyRate) {
+      query += ` AND hourly_rate >= $${valueIndex++}`;
+      values.push(criteria.minHourlyRate);
+    }
+
+    if (criteria.maxHourlyRate) {
+      query += ` AND hourly_rate <= $${valueIndex++}`;
+      values.push(criteria.maxHourlyRate);
+    }
+
+    if (criteria.minRating) {
+      query += ` AND rating >= $${valueIndex++}`;
+      values.push(criteria.minRating);
+    }
+
+    query += ` ORDER BY ${sortBy} ${sortOrder}`;
+    query += ` LIMIT $${valueIndex++} OFFSET $${valueIndex}`;
+    values.push(limit, (page - 1) * limit);
+
+    const result = await db.query(query, values);
+    return result.rows;
+  }
 }
 
 module.exports = Tasker;

@@ -2,11 +2,13 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
+
 const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const taskerRoutes = require("./routes/taskerRoutes");
-const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./config/swagger");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 const app = express();
 
@@ -20,6 +22,8 @@ app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/taskers", taskerRoutes);
+app.use("/api/bookings", bookingRoutes);
+
 app.get("/", (req, res) => {
   res.send("Welcome to Handyman API");
 });

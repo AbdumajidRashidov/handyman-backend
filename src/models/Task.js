@@ -41,6 +41,53 @@ class Task {
     const result = await db.query(query, [userId]);
     return result.rows;
   }
+
+  static async search(
+    criteria,
+    page = 1,
+    limit = 10,
+    sortBy = "created_at",
+    sortOrder = "DESC"
+  ) {
+    let query = "SELECT * FROM tasks WHERE 1=1";
+    const values = [];
+    let valueIndex = 1;
+
+    if (criteria.category) {
+      query += ` AND category = $${valueIndex++}`;
+      values.push(criteria.category);
+    }
+
+    if (criteria.minBudget) {
+      query += ` AND budget >= $${valueIndex++}`;
+      values.push(criteria.minBudget);
+    }
+
+    if (criteria.maxBudget) {
+      query += ` AND budget <= $${valueIndex++}`;
+      values.push(criteria.maxBudget);
+    }
+
+    if (criteria.location) {
+      // Assuming location is stored as a point in PostgreSQL
+      query += ` AND ST_DWithin(location, ST_SetSRID(ST_MakePoint($${valueIndex}, $${
+        valueIndex + 1
+      }), 4326), $${valueIndex + 2})`;
+      values.push(
+        criteria.location.longitude,
+        criteria.location.latitude,
+        criteria.location.radius
+      );
+      valueIndex += 3;
+    }
+
+    query += ` ORDER BY ${sortBy} ${sortOrder}`;
+    query += ` LIMIT $${valueIndex++} OFFSET $${valueIndex}`;
+    values.push(limit, (page - 1) * limit);
+
+    const result = await db.query(query, values);
+    return result.rows;
+  }
 }
 
 module.exports = Task;
