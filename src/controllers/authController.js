@@ -1,4 +1,5 @@
 const authService = require("../services/authService");
+const { generateOTP, sendOTP } = require("../services/otpService");
 
 exports.register = async (req, res) => {
   try {
@@ -25,5 +26,26 @@ exports.login = async (req, res) => {
     res.json({ token });
   } catch (error) {
     res.status(401).json({ message: error.message });
+  }
+};
+
+exports.sendOTPController = async (req, res) => {
+  const { phoneNumber } = req.body;
+
+  if (!phoneNumber) {
+    return res.status(400).json({ error: "Phone number is required" });
+  }
+
+  const otp = generateOTP();
+
+  // In a real application, you should save this OTP in your database
+  // associated with the phone number and with an expiration time
+
+  const sent = await sendOTP(phoneNumber, otp);
+
+  if (sent) {
+    res.status(200).json({ message: "OTP sent successfully" });
+  } else {
+    res.status(500).json({ error: "Failed to send OTP" });
   }
 };
