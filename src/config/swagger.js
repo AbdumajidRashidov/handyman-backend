@@ -13,6 +13,15 @@ const swaggerSpec = swaggerJSDoc({
         url: "http://localhost:8080/",
       },
     ],
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+        },
+      },
+    },
   },
   apis: ["./src/docs/*.js"],
 });

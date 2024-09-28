@@ -1,16 +1,25 @@
 const jwt = require("jsonwebtoken");
+const { isTokenBlacklisted, verifyToken } = require("../services/authService");
 
-module.exports = (req, res, next) => {
-  const token = req.header("Authorization")?.replace("Bearer ", "");
+const authMiddleware = (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
   if (!token) {
-    return res.status(401).json({ message: "No token, authorization denied" });
+    return res.status(401).json({ error: "No token provided" });
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.user;
-    next();
-  } catch (error) {
-    res.status(401).json({ message: "Token is not valid" });
+  if (isTokenBlacklisted(token)) {
+    return res.status(401).json({ error: "Token has been invalidated" });
   }
+
+  const { valid, decoded, error } = verifyToken(token);
+
+  if (!valid) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+
+  req.user = decoded;
+  next();
 };
+
+module.exports = authMiddleware;

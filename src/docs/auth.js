@@ -98,6 +98,18 @@
  *   post:
  *     summary: Logout a user
  *     tags: [Authentication]
+ *     security:
+ *      - bearerAuth: []
+ *     requestBody:
+ *       required: false  # Optional, since you may not need a body for logout
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               token:
+ *                 type: string
+ *                 example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *     responses:
  *       200:
  *         description: User logged out successfully
