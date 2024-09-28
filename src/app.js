@@ -9,6 +9,7 @@ const authRoutes = require("./routes/authRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const taskerRoutes = require("./routes/taskerRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const searchRoutes = require("./routes/searchRoutes");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/tasks", taskRoutes);
 app.use("/api/taskers", taskerRoutes);
 app.use("/api/bookings", bookingRoutes);
+app.use("/api/search", searchRoutes);
 
 app.get("/", (req, res) => {
   res.send("Welcome to Handyman API");
